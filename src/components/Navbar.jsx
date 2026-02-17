@@ -10,9 +10,36 @@ function Navbar() {
         <h1>Logo</h1>
       </div>
       <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/about">About</NavLink>
-        <NavLink to="/contact">Contact</NavLink>
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/about"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          About
+        </NavLink>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Contact
+        </NavLink>
+        <NavLink
+          to="/gallery"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Gallery
+        </NavLink>
+        <NavLink
+          to="/courses"
+          className={({ isActive }) => (isActive ? "active" : "")}
+        >
+          Courses
+        </NavLink>
       </nav>
     </div>
   );

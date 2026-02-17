@@ -1,0 +1,36 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+.big-box {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  transition: background-image 1s ease-in-out;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.small-card {
+  width: 15vw;
+  height: 30vh;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+  overflow: hidden;
+}

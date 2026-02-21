@@ -3,7 +3,14 @@ import Image1 from "../assets/images/2.jpeg";
 import Image2 from "../assets/images/3.jpg";
 import Image3 from "../assets/images/4.jpg";
 import "../styles/home.css";
-import { ChevronLeft, ChevronRight, Users, Award, BookOpen, Building2 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Users,
+  Award,
+  BookOpen,
+  Building2,
+} from "lucide-react";
 
 const images = [
   {
@@ -132,7 +139,6 @@ function Home() {
         </div>
       </div>
 
-      {/* Stats Cards Section */}
       <div className="stats-section">
         <div className="stats-grid">
           {stats.map((stat) => {
@@ -147,6 +153,17 @@ function Home() {
               </div>
             );
           })}
+        </div>
+      </div>
+      <div className="about-container">
+        <div className="about-title">
+          <h1>ABOUT US</h1>
+        </div>
+        <div className="about-paragraph">
+          <p>
+            Satyanarayan was established in 1990. By Nepal Goverment it it is an
+            goverment school
+          </p>
         </div>
       </div>
     </div>

@@ -3,7 +3,7 @@ import Image1 from "../assets/images/2.jpeg";
 import Image2 from "../assets/images/3.jpg";
 import Image3 from "../assets/images/4.jpg";
 import "../styles/home.css";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Users, Award, BookOpen, Building2 } from "lucide-react";
 
 const images = [
   {
@@ -26,6 +26,33 @@ const images = [
     title: "Strong Community",
     subtitle: "Growing together as one family",
     cta: "Join Us",
+  },
+];
+
+const stats = [
+  {
+    id: 1,
+    icon: Users,
+    value: "2500+",
+    label: "Students",
+  },
+  {
+    id: 2,
+    icon: Award,
+    value: "30+",
+    label: "Years of Excellence",
+  },
+  {
+    id: 3,
+    icon: BookOpen,
+    value: "Class 2-12",
+    label: "Grade Levels",
+  },
+  {
+    id: 4,
+    icon: Building2,
+    value: "1990",
+    label: "Established",
   },
 ];
 
@@ -102,6 +129,24 @@ function Home() {
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
+        </div>
+      </div>
+
+      {/* Stats Cards Section */}
+      <div className="stats-section">
+        <div className="stats-grid">
+          {stats.map((stat) => {
+            const IconComponent = stat.icon;
+            return (
+              <div key={stat.id} className="stat-card">
+                <div className="stat-icon">
+                  <IconComponent size={40} />
+                </div>
+                <h3>{stat.value}</h3>
+                <p>{stat.label}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

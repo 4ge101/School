@@ -9,9 +9,10 @@ import "./styles/announcement.css";
 
 function App() {
   const announcements = [
-    "Annual Function",
-    "Admission 2025",
-    "About School"
+    "📢 Admissions Open for 2026-27 Session — Apply Now!",
+    "🏆 SSNS students science excibation ",
+    "📅 Annual Sports Day: January 00, 2026",
+    "📝 FInal-Term Examinations Begin January 00, 2026"
   ];
 
   return (

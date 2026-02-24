@@ -3,6 +3,7 @@ import Image1 from "../assets/images/2.jpeg";
 import Image2 from "../assets/images/3.jpg";
 import Image3 from "../assets/images/4.jpg";
 import "../styles/home.css";
+// import Footer from "../components/Footer";
 import {
   ChevronLeft,
   ChevronRight,
@@ -14,6 +15,14 @@ import {
   Target,
   Heart,
   Lightbulb,
+  Eye,
+  Compass,
+  Flag,
+  TrendingUp,
+  GraduationCap,
+  Star,
+  Laptop,
+  TreePine,
 } from "lucide-react";
 
 const images = [
@@ -41,30 +50,10 @@ const images = [
 ];
 
 const stats = [
-  {
-    id: 1,
-    icon: Users,
-    value: "2500+",
-    label: "Students",
-  },
-  {
-    id: 2,
-    icon: Award,
-    value: "30+",
-    label: "Years of Excellence",
-  },
-  {
-    id: 3,
-    icon: BookOpen,
-    value: "Class 2-12",
-    label: "Grade Levels",
-  },
-  {
-    id: 4,
-    icon: Building2,
-    value: "1990",
-    label: "Established",
-  },
+  { id: 1, icon: Users, value: "2500+", label: "Students" },
+  { id: 2, icon: Award, value: "30+", label: "Years of Excellence" },
+  { id: 3, icon: BookOpen, value: "Class 2-12", label: "Grade Levels" },
+  { id: 4, icon: Building2, value: "1990", label: "Established" },
 ];
 
 const features = [
@@ -97,17 +86,59 @@ const features = [
   },
 ];
 
+const visionPoints = [
+  "To be a leading institution that nurtures well-rounded individuals equipped for the challenges of the modern world.",
+  "To foster a culture of lifelong learning, critical thinking, and ethical values among our students.",
+  "To create graduates who are confident, responsible, and ready to contribute meaningfully to society.",
+];
+
+const missionPoints = [
+  "Deliver high-quality, inclusive education accessible to all students regardless of their socioeconomic background.",
+  "Cultivate a safe, respectful, and stimulating learning environment that encourages curiosity and creativity.",
+  "Strengthen partnerships between teachers, parents, and the community to support every student's holistic development.",
+  "Uphold academic excellence while instilling discipline, cultural values, and a sense of civic responsibility.",
+];
+
+const historyEvents = [
+  {
+    year: "1990",
+    icon: Flag,
+    title: "School Founded",
+    description:
+      "Satyanarayan School was established as a government institution with a mission to provide quality education to the local community. It began with a handful of classrooms and a dedicated team of founding teachers.",
+  },
+  {
+    year: "1995",
+    icon: TrendingUp,
+    title: "Rapid Growth",
+    description:
+      "Within five years, student enrollment grew significantly. New classrooms were constructed and additional teaching staff were appointed to meet the rising demand for education in the region.",
+  },
+  {
+    year: "2000",
+    icon: GraduationCap,
+    title: "Higher Secondary Introduced",
+    description:
+      "The school expanded its academic program by introducing Grade 11 and 12, enabling students to pursue higher secondary education without leaving their community.",
+  },
+  {
+    year: "2005",
+    icon: Star,
+    title: "Academic Excellence Award",
+    description:
+      "Satyanarayan School received recognition from the district education board for outstanding academic performance and high student pass rates in national examinations.",
+  },
+];
+
 function Home() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
 
   useEffect(() => {
     if (!isAutoPlay) return;
-
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 1500);
-
     return () => clearInterval(timer);
   }, [isAutoPlay]);
 
@@ -130,6 +161,7 @@ function Home() {
 
   return (
     <div className="hero-container">
+      {/* ── Carousel ── */}
       <div className="hero-carousel">
         {images.map((image, index) => (
           <div
@@ -145,7 +177,6 @@ function Home() {
             </div>
           </div>
         ))}
-
         <button
           className="hero-nav hero-nav-prev"
           onClick={handlePrevious}
@@ -160,7 +191,6 @@ function Home() {
         >
           <ChevronRight size={32} />
         </button>
-
         <div className="hero-indicators">
           {images.map((_, index) => (
             <button
@@ -173,6 +203,7 @@ function Home() {
         </div>
       </div>
 
+      {/* ── Stats ── */}
       <div className="stats-section">
         <div className="stats-grid">
           {stats.map((stat) => {
@@ -190,6 +221,7 @@ function Home() {
         </div>
       </div>
 
+      {/* ── About ── */}
       <div className="about-container">
         <div className="about-left">
           <div className="about-title">
@@ -222,7 +254,6 @@ function Home() {
             </p>
           </div>
         </div>
-
         <div className="about-right">
           {features.map((feature) => {
             const IconComponent = feature.icon;
@@ -238,6 +269,92 @@ function Home() {
           })}
         </div>
       </div>
+
+      {/* ── Vision & Mission ── */}
+      <div className="vm-section">
+        <div className="vm-header">
+          <h2>Our Vision &amp; Mission</h2>
+          <p className="vm-header-sub">
+            Guided by purpose, driven by passion — shaping futures since 1990.
+          </p>
+          <div className="vm-header-accent"></div>
+        </div>
+        <div className="vm-grid">
+          <div className="vm-card">
+            <div className="vm-card-top">
+              <div className="vm-icon-wrap">
+                <Eye size={32} />
+              </div>
+              <h3>Our Vision</h3>
+            </div>
+            <p className="vm-card-lead">
+              To inspire every student to reach their fullest potential and
+              become a responsible citizen of tomorrow.
+            </p>
+            <ul className="vm-points">
+              {visionPoints.map((point, i) => (
+                <li key={i}>
+                  <span className="vm-bullet"></span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="vm-card">
+            <div className="vm-card-top">
+              <div className="vm-icon-wrap">
+                <Compass size={32} />
+              </div>
+              <h3>Our Mission</h3>
+            </div>
+            <p className="vm-card-lead">
+              To provide a nurturing and inclusive environment where quality
+              education transforms lives and builds strong communities.
+            </p>
+            <ul className="vm-points">
+              {missionPoints.map((point, i) => (
+                <li key={i}>
+                  <span className="vm-bullet"></span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* ── School History Timeline ── */}
+      <div className="history-section">
+        <div className="history-header">
+          <h2>Our History</h2>
+          <p className="history-header-sub">
+            Three decades of shaping minds and building futures.
+          </p>
+          <div className="history-header-accent"></div>
+        </div>
+
+        <div className="timeline">
+          {historyEvents.map((event, index) => {
+            const IconComponent = event.icon;
+            return (
+              <div key={index} className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-card">
+                  <div className="timeline-card-header">
+                    <div className="timeline-icon">
+                      <IconComponent size={18} />
+                    </div>
+                    <span className="timeline-year">{event.year}</span>
+                  </div>
+                  <h3>{event.title}</h3>
+                  <p>{event.description}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {/* <Footer/> */}
     </div>
   );
 }

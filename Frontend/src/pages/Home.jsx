@@ -3,7 +3,7 @@ import Image1 from "../assets/images/2.jpeg";
 import Image2 from "../assets/images/3.jpg";
 import Image3 from "../assets/images/4.jpg";
 import "../styles/home.css";
-// import Footer from "../components/Footer";
+import Footer from "../components/Footer";
 import {
   ChevronLeft,
   ChevronRight,
@@ -354,7 +354,7 @@ function Home() {
           })}
         </div>
       </div>
-      {/* <Footer/> */}
+      <Footer/>
     </div>
   );
 }

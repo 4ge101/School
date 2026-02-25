@@ -186,8 +186,90 @@
 .stat-value {
   font-size: 2rem;
   color: #122549;
-  margin: 8px 0 0 0;
+  margin: 0;
   font-weight: 700;
+}
+
+/* Editable stat value row */
+.stat-value-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.stat-edit-trigger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ccc;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s, background 0.2s;
+  opacity: 0;
+}
+
+.stat-card:hover .stat-edit-trigger {
+  opacity: 1;
+}
+
+.stat-edit-trigger:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+/* Edit mode row */
+.stat-edit-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.stat-edit-input {
+  width: 90px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #122549;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 2px 8px;
+  font-family: "Poppins", sans-serif;
+  outline: none;
+  background: #f4f6ff;
+}
+
+.stat-edit-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.stat-edit-btn.confirm {
+  background: #e8f5e9;
+  color: #48bb78;
+}
+
+.stat-edit-btn.confirm:hover {
+  background: #48bb78;
+  color: white;
+}
+
+.stat-edit-btn.cancel {
+  background: #fef0f0;
+  color: #e53e3e;
+}
+
+.stat-edit-btn.cancel:hover {
+  background: #e53e3e;
+  color: white;
 }
 
 /* Dashboard Grid */

@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   LogOut,
-  User,
   BookOpen,
   Calendar,
   BarChart3,
   Clock,
   Award,
   Mail,
+  Pencil,
+  Check,
+  X,
 } from "lucide-react";
 import "../styles/dashboard.css";
 
@@ -17,16 +19,24 @@ function Dashboard() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // Editable stats state
+  const [stats, setStats] = useState([
+    { id: 1, icon: BookOpen, label: "Courses Enrolled", value: "8", color: "blue" },
+    { id: 2, icon: Award, label: "GPA", value: "3.8", color: "green" },
+    { id: 3, icon: Calendar, label: "Classes Today", value: "5", color: "orange" },
+    { id: 4, icon: BarChart3, label: "Attendance", value: "94%", color: "purple" },
+  ]);
+
+  const [editingId, setEditingId] = useState(null);
+  const [editValue, setEditValue] = useState("");
+
   useEffect(() => {
-    // Check if user is logged in
     const storedUser = localStorage.getItem("user");
     const token = localStorage.getItem("token");
-
     if (!storedUser || !token) {
       navigate("/login");
       return;
     }
-
     setUser(JSON.parse(storedUser));
     setLoading(false);
   }, [navigate]);
@@ -35,6 +45,28 @@ function Dashboard() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/login");
+  };
+
+  const startEdit = (stat) => {
+    setEditingId(stat.id);
+    setEditValue(stat.value);
+  };
+
+  const confirmEdit = (id) => {
+    setStats((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, value: editValue } : s))
+    );
+    setEditingId(null);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditValue("");
+  };
+
+  const handleKeyDown = (e, id) => {
+    if (e.key === "Enter") confirmEdit(id);
+    if (e.key === "Escape") cancelEdit();
   };
 
   if (loading) {
@@ -46,68 +78,16 @@ function Dashboard() {
     );
   }
 
-  const dashboardStats = [
-    {
-      id: 1,
-      icon: BookOpen,
-      label: "Courses Enrolled",
-      value: "8",
-      color: "blue",
-    },
-    { id: 2, icon: Award, label: "GPA", value: "3.8", color: "green" },
-    { id: 3, icon: Calendar, label: "Classes Today", value: "5", color: "orange" },
-    {
-      id: 4,
-      icon: BarChart3,
-      label: "Attendance",
-      value: "94%",
-      color: "purple",
-    },
-  ];
-
   const upcomingClasses = [
-    {
-      id: 1,
-      subject: "Mathematics",
-      time: "10:00 AM",
-      teacher: "Mr. Sharma",
-      room: "A-101",
-    },
-    {
-      id: 2,
-      subject: "English",
-      time: "11:30 AM",
-      teacher: "Ms. Patel",
-      room: "B-205",
-    },
-    {
-      id: 3,
-      subject: "Science",
-      time: "1:00 PM",
-      teacher: "Dr. Gupta",
-      room: "C-310",
-    },
+    { id: 1, subject: "Mathematics", time: "10:00 AM", teacher: "Mr. Sharma", room: "A-101" },
+    { id: 2, subject: "English", time: "11:30 AM", teacher: "Ms. Patel", room: "B-205" },
+    { id: 3, subject: "Science", time: "1:00 PM", teacher: "Dr. Gupta", room: "C-310" },
   ];
 
   const recentAssignments = [
-    {
-      id: 1,
-      title: "Math Assignment - Chapter 5",
-      dueDate: "2026-02-25",
-      status: "pending",
-    },
-    {
-      id: 2,
-      title: "Essay on Indian Independence",
-      dueDate: "2026-02-28",
-      status: "pending",
-    },
-    {
-      id: 3,
-      title: "Science Project",
-      dueDate: "2026-02-22",
-      status: "submitted",
-    },
+    { id: 1, title: "Math Assignment - Chapter 5", dueDate: "2026-02-25", status: "pending" },
+    { id: 2, title: "Essay on Indian Independence", dueDate: "2026-02-28", status: "pending" },
+    { id: 3, title: "Science Project", dueDate: "2026-02-22", status: "submitted" },
   ];
 
   return (
@@ -128,19 +108,55 @@ function Dashboard() {
         {/* Stats Grid */}
         <section className="stats-section">
           <div className="stats-grid">
-            {dashboardStats.map((stat) => {
+            {stats.map((stat) => {
               const IconComponent = stat.icon;
+              const isEditing = editingId === stat.id;
+
               return (
-                <div
-                  key={stat.id}
-                  className={`stat-card stat-${stat.color}`}
-                >
+                <div key={stat.id} className={`stat-card stat-${stat.color}`}>
                   <div className="stat-icon">
                     <IconComponent size={28} />
                   </div>
                   <div className="stat-content">
                     <p className="stat-label">{stat.label}</p>
-                    <h3 className="stat-value">{stat.value}</h3>
+
+                    {isEditing ? (
+                      <div className="stat-edit-row">
+                        <input
+                          className="stat-edit-input"
+                          type="text"
+                          value={editValue}
+                          onChange={(e) => setEditValue(e.target.value)}
+                          onKeyDown={(e) => handleKeyDown(e, stat.id)}
+                          autoFocus
+                        />
+                        <button
+                          className="stat-edit-btn confirm"
+                          onClick={() => confirmEdit(stat.id)}
+                          title="Save"
+                        >
+                          <Check size={14} />
+                        </button>
+                        <button
+                          className="stat-edit-btn cancel"
+                          onClick={cancelEdit}
+                          title="Cancel"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="stat-value-row">
+                        <h3 className="stat-value">{stat.value}</h3>
+                        <button
+                          className="stat-edit-trigger"
+                          onClick={() => startEdit(stat)}
+                          title="Edit value"
+                        >
+                          <Pencil size={13} />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               );
@@ -181,14 +197,12 @@ function Dashboard() {
                 <div key={assignment.id} className="assignment-item">
                   <div className="assignment-info">
                     <h4>{assignment.title}</h4>
-                    <small>Due: {new Date(assignment.dueDate).toLocaleDateString()}</small>
+                    <small>
+                      Due: {new Date(assignment.dueDate).toLocaleDateString()}
+                    </small>
                   </div>
-                  <span
-                    className={`assignment-status ${assignment.status}`}
-                  >
-                    {assignment.status === "pending"
-                      ? "Pending"
-                      : "Submitted"}
+                  <span className={`assignment-status ${assignment.status}`}>
+                    {assignment.status === "pending" ? "Pending" : "Submitted"}
                   </span>
                 </div>
               ))}

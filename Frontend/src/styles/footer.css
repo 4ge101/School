@@ -1,0 +1,85 @@
+.footer {
+  position: relative;
+  background: white;
+  color: #333;
+  padding-top: 100px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.footer-wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: #f4c430;
+  clip-path: polygon(0 100%, 100% 0, 100% 100%, 0% 100%);
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 40px 10%;
+  flex-wrap: wrap;
+}
+
+.footer-brand h2 {
+  color: #f4c430;
+  margin-bottom: 15px;
+}
+
+.footer-brand p {
+  max-width: 300px;
+  line-height: 1.6;
+}
+
+.footer-links h3,
+.footer-contact h3 {
+  color: #f4c430;
+  margin-bottom: 15px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+  text-decoration: none;
+  color: #333;
+  transition: 0.3s;
+}
+
+.footer-links ul li a:hover {
+  color: #f4c430;
+  padding-left: 5px;
+}
+
+.footer-contact p {
+  margin-bottom: 10px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding: 20px;
+  background: #f4c430;
+  color: black;
+  font-weight: 500;
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer-brand p {
+    margin: auto;
+  }
+}

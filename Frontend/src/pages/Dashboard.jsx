@@ -1,45 +1,55 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  LogOut,
-  BookOpen,
-  Calendar,
-  BarChart3,
-  Clock,
-  Award,
-  Mail,
-  Pencil,
-  Check,
-  X,
+  LogOut, BookOpen, Clock,
+  Award, Mail, Pencil, Check, X,
 } from "lucide-react";
 import "../styles/dashboard.css";
+import { useStats, ICON_MAP } from "../context/StatsContext";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { homeStats, setHomeStats } = useStats();
 
-  // Editable stats state
-  const [stats, setStats] = useState([
-    { id: 1, icon: BookOpen, label: "Courses Enrolled", value: "8", color: "blue" },
-    { id: 2, icon: Award, label: "GPA", value: "3.8", color: "green" },
-    { id: 3, icon: Calendar, label: "Classes Today", value: "5", color: "orange" },
-    { id: 4, icon: BarChart3, label: "Attendance", value: "94%", color: "purple" },
-  ]);
+  const [user] = useState(() => {
+    const stored = localStorage.getItem("user");
+    const token  = localStorage.getItem("token");
+    if (!stored || !token) { navigate("/login"); return null; }
+    return JSON.parse(stored);
+  });
 
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState("");
+  const [savedId,   setSavedId]   = useState(null);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (!storedUser || !token) {
-      navigate("/login");
-      return;
+  if (!user) return null;
+
+  const startEdit = (id, value) => { setEditingId(id); setEditValue(value); };
+
+  const confirmEdit = (id) => {
+    const [group, rawId] = id.split("-");
+    const numId = Number(rawId);
+
+    if (group === "dash") {
+      setDashboardStats((prev) =>
+        prev.map((s) => (s.id === numId ? { ...s, value: editValue } : s))
+      );
+    } else {
+      setHomeStats((prev) =>
+        prev.map((s) => (s.id === numId ? { ...s, value: editValue } : s))
+      );
     }
-    setUser(JSON.parse(storedUser));
-    setLoading(false);
-  }, [navigate]);
+    setEditingId(null);
+    setSavedId(id);
+    setTimeout(() => setSavedId(null), 700);
+  };
+
+  const cancelEdit = () => { setEditingId(null); setEditValue(""); };
+
+  const handleKeyDown = (e, id) => {
+    if (e.key === "Enter")  confirmEdit(id);
+    if (e.key === "Escape") cancelEdit();
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -47,125 +57,103 @@ function Dashboard() {
     navigate("/login");
   };
 
-  const startEdit = (stat) => {
-    setEditingId(stat.id);
-    setEditValue(stat.value);
-  };
+  // Reusable stat card
+  const StatCard = ({ id, iconName, label, value, color, icons }) => {
+    const isEditing    = editingId === id;
+    const isSaved      = savedId   === id;
+    const IconComponent = icons[iconName] || BookOpen;
 
-  const confirmEdit = (id) => {
-    setStats((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, value: editValue } : s))
-    );
-    setEditingId(null);
-  };
-
-  const cancelEdit = () => {
-    setEditingId(null);
-    setEditValue("");
-  };
-
-  const handleKeyDown = (e, id) => {
-    if (e.key === "Enter") confirmEdit(id);
-    if (e.key === "Escape") cancelEdit();
-  };
-
-  if (loading) {
     return (
-      <div className="dashboard-loading">
-        <div className="spinner"></div>
-        <p>Loading dashboard...</p>
+      <div className={`stat-card stat-${color || "blue"}${isSaved ? " saved" : ""}`}>
+        <div className="stat-icon">
+          <IconComponent size={28} />
+        </div>
+        <div className="stat-content">
+          <p className="stat-label">{label}</p>
+          {isEditing ? (
+            <div className="stat-edit-row">
+              <input
+                className="stat-edit-input"
+                type="text"
+                value={editValue}
+                onChange={(e) => setEditValue(e.target.value)}
+                onKeyDown={(e) => handleKeyDown(e, id)}
+                autoFocus
+              />
+              <button className="stat-edit-btn confirm" onClick={() => confirmEdit(id)} title="Save">
+                <Check size={14} />
+              </button>
+              <button className="stat-edit-btn cancel" onClick={cancelEdit} title="Cancel">
+                <X size={14} />
+              </button>
+            </div>
+          ) : (
+            <div className="stat-value-row">
+              <h3 className="stat-value">{value}</h3>
+              <button
+                className="stat-edit-trigger"
+                onClick={() => startEdit(id, value)}
+                title="Edit value"
+              >
+                <Pencil size={13} />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     );
-  }
+  };
 
   const upcomingClasses = [
-    { id: 1, subject: "Mathematics", time: "10:00 AM", teacher: "Mr. Sharma", room: "A-101" },
-    { id: 2, subject: "English", time: "11:30 AM", teacher: "Ms. Patel", room: "B-205" },
-    { id: 3, subject: "Science", time: "1:00 PM", teacher: "Dr. Gupta", room: "C-310" },
+    { id: 1, subject: "Mathematics", time: "10:00 AM", teacher: "Mr. Sharma",  room: "A-101" },
+    { id: 2, subject: "English",     time: "11:30 AM", teacher: "Ms. Patel",   room: "B-205" },
+    { id: 3, subject: "Science",     time: "1:00 PM",  teacher: "Dr. Gupta",   room: "C-310" },
   ];
 
   const recentAssignments = [
-    { id: 1, title: "Math Assignment - Chapter 5", dueDate: "2026-02-25", status: "pending" },
-    { id: 2, title: "Essay on Indian Independence", dueDate: "2026-02-28", status: "pending" },
-    { id: 3, title: "Science Project", dueDate: "2026-02-22", status: "submitted" },
+    { id: 1, title: "Math Assignment - Chapter 5",  dueDate: "2026-02-25", status: "pending"   },
+    { id: 2, title: "Essay on Indian Independence", dueDate: "2026-02-28", status: "pending"   },
+    { id: 3, title: "Science Project",              dueDate: "2026-02-22", status: "submitted" },
   ];
 
   return (
     <div className="dashboard-container">
-      {/* Header */}
       <div className="dashboard-header">
         <div className="header-content">
           <h1>Welcome, {user?.name || "Student"}!</h1>
           <p>Here's your academic dashboard</p>
         </div>
         <button className="logout-button" onClick={handleLogout}>
-          <LogOut size={20} />
-          Logout
+          <LogOut size={20} /> Logout
         </button>
       </div>
 
       <div className="dashboard-content">
-        {/* Stats Grid */}
+
+        {/* School Stats — editable here, reflects live on Home */}
         <section className="stats-section">
+          <h2 className="section-group-label">
+            🏫 School Stats <span className="live-badge">Live on Home</span>
+          </h2>
           <div className="stats-grid">
-            {stats.map((stat) => {
-              const IconComponent = stat.icon;
-              const isEditing = editingId === stat.id;
-
+            {homeStats.map((stat, i) => {
+              const colors = ["blue", "green", "orange", "purple"];
               return (
-                <div key={stat.id} className={`stat-card stat-${stat.color}`}>
-                  <div className="stat-icon">
-                    <IconComponent size={28} />
-                  </div>
-                  <div className="stat-content">
-                    <p className="stat-label">{stat.label}</p>
-
-                    {isEditing ? (
-                      <div className="stat-edit-row">
-                        <input
-                          className="stat-edit-input"
-                          type="text"
-                          value={editValue}
-                          onChange={(e) => setEditValue(e.target.value)}
-                          onKeyDown={(e) => handleKeyDown(e, stat.id)}
-                          autoFocus
-                        />
-                        <button
-                          className="stat-edit-btn confirm"
-                          onClick={() => confirmEdit(stat.id)}
-                          title="Save"
-                        >
-                          <Check size={14} />
-                        </button>
-                        <button
-                          className="stat-edit-btn cancel"
-                          onClick={cancelEdit}
-                          title="Cancel"
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="stat-value-row">
-                        <h3 className="stat-value">{stat.value}</h3>
-                        <button
-                          className="stat-edit-trigger"
-                          onClick={() => startEdit(stat)}
-                          title="Edit value"
-                        >
-                          <Pencil size={13} />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                <StatCard
+                  key={`home-${stat.id}`}
+                  id={`home-${stat.id}`}
+                  iconName={stat.iconName}
+                  label={stat.label}
+                  value={stat.value}
+                  color={colors[i % colors.length]}
+                  icons={ICON_MAP}
+                />
               );
             })}
           </div>
         </section>
 
         <div className="dashboard-grid">
-          {/* Upcoming Classes */}
           <section className="card-section">
             <div className="section-header">
               <h2>Today's Schedule</h2>
@@ -186,7 +174,6 @@ function Dashboard() {
             </div>
           </section>
 
-          {/* Recent Assignments */}
           <section className="card-section">
             <div className="section-header">
               <h2>Assignments</h2>
@@ -197,9 +184,7 @@ function Dashboard() {
                 <div key={assignment.id} className="assignment-item">
                   <div className="assignment-info">
                     <h4>{assignment.title}</h4>
-                    <small>
-                      Due: {new Date(assignment.dueDate).toLocaleDateString()}
-                    </small>
+                    <small>Due: {new Date(assignment.dueDate).toLocaleDateString()}</small>
                   </div>
                   <span className={`assignment-status ${assignment.status}`}>
                     {assignment.status === "pending" ? "Pending" : "Submitted"}
@@ -210,7 +195,6 @@ function Dashboard() {
           </section>
         </div>
 
-        {/* User Profile Card */}
         <section className="profile-card">
           <div className="profile-header">
             <div className="profile-avatar">
@@ -237,6 +221,7 @@ function Dashboard() {
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );

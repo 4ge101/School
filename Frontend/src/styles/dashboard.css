@@ -118,27 +118,21 @@
   align-items: center;
   gap: 20px;
   transition: all 0.3s ease;
+  border-left: 5px solid transparent;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  position: relative;
+  overflow: hidden;
 }
 
 .stat-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
-.stat-blue {
-  border-left-color: #667eea;
-}
-
-.stat-green {
-  border-left-color: #48bb78;
-}
-
-.stat-orange {
-  border-left-color: #ff9800;
-}
-
-.stat-purple {
-  border-left-color: #9f7aea;
-}
+.stat-blue  { border-left-color: #667eea; }
+.stat-green { border-left-color: #48bb78; }
+.stat-orange { border-left-color: #ff9800; }
+.stat-purple { border-left-color: #9f7aea; }
 
 .stat-icon {
   width: 60px;
@@ -239,6 +233,21 @@
   font-family: "Poppins", sans-serif;
   outline: none;
   background: #f4f6ff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stat-edit-input:focus {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+/* Flash animation when value is saved */
+@keyframes flashSave {
+  0%   { background: rgba(102, 126, 234, 0.12); }
+  100% { background: transparent; }
+}
+
+.stat-card.saved {
+  animation: flashSave 0.6s ease-out;
 }
 
 .stat-edit-btn {
@@ -580,4 +589,46 @@
   .stat-value {
     font-size: 1.5rem;
   }
+}
+/* ── Section group labels ─────────────────────────────────────────────────── */
+.section-group-label {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #122549;
+  margin: 0 0 14px 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: 0.3px;
+}
+
+.live-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.4px;
+  animation: pulse-badge 2s ease-in-out infinite;
+}
+
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+/* ── Flash animation when a value is saved ───────────────────────────────── */
+@keyframes flashSave {
+  0%   { box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.5); }
+  100% { box-shadow: 0 4px 15px rgba(0,0,0,0.07); }
+}
+
+.stat-card.saved {
+  animation: flashSave 0.7s ease-out;
+}
+
+/* ── Stat edit input focus ring ──────────────────────────────────────────── */
+.stat-edit-input:focus {
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }

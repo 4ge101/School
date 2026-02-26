@@ -4,6 +4,7 @@ import Image2 from "../assets/images/3.jpg";
 import Image3 from "../assets/images/4.jpg";
 import "../styles/home.css";
 import Footer from "../components/Footer";
+import { useStats, ICON_MAP } from "../context/StatsContext";
 import {
   ChevronLeft,
   ChevronRight,
@@ -21,8 +22,6 @@ import {
   TrendingUp,
   GraduationCap,
   Star,
-  Laptop,
-  TreePine,
 } from "lucide-react";
 
 const images = [
@@ -47,13 +46,6 @@ const images = [
     subtitle: "Growing together as one family",
     cta: "Join Us",
   },
-];
-
-const stats = [
-  { id: 1, icon: Users, value: "2500+", label: "Students" },
-  { id: 2, icon: Award, value: "30+", label: "Years of Excellence" },
-  { id: 3, icon: BookOpen, value: "Class 2-12", label: "Grade Levels" },
-  { id: 4, icon: Building2, value: "1990", label: "Established" },
 ];
 
 const features = [
@@ -131,27 +123,26 @@ const historyEvents = [
 ];
 
 function Home() {
+  const { homeStats } = useStats(); // ← live stats from context
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
 
   useEffect(() => {
     if (!isAutoPlay) return;
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 1500);
     return () => clearInterval(timer);
   }, [isAutoPlay]);
 
   const handlePrevious = () => {
     setIsAutoPlay(false);
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length,
-    );
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   const handleNext = () => {
     setIsAutoPlay(false);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
   const handleDotClick = (index) => {
@@ -161,7 +152,7 @@ function Home() {
 
   return (
     <div className="hero-container">
-      {/* ── Carousel ── */}
+      {/* Carousel */}
       <div className="hero-carousel">
         {images.map((image, index) => (
           <div
@@ -203,11 +194,11 @@ function Home() {
         </div>
       </div>
 
-      {/* ── Stats ── */}
+      {/* Stats — driven by context, editable from Dashboard */}
       <div className="stats-section">
         <div className="stats-grid">
-          {stats.map((stat) => {
-            const IconComponent = stat.icon;
+          {homeStats.map((stat) => {
+            const IconComponent = ICON_MAP[stat.iconName] || Users;
             return (
               <div key={stat.id} className="stat-card">
                 <div className="stat-icon">
@@ -221,7 +212,7 @@ function Home() {
         </div>
       </div>
 
-      {/* ── About ── */}
+      {/* About */}
       <div className="about-container">
         <div className="about-left">
           <div className="about-title">
@@ -270,7 +261,7 @@ function Home() {
         </div>
       </div>
 
-      {/* ── Vision & Mission ── */}
+      {/* Vision & Mission */}
       <div className="vm-section">
         <div className="vm-header">
           <h2>Our Vision &amp; Mission</h2>
@@ -323,7 +314,7 @@ function Home() {
         </div>
       </div>
 
-      {/* ── School History Timeline ── */}
+      {/* History Timeline */}
       <div className="history-section">
         <div className="history-header">
           <h2>Our History</h2>
@@ -332,7 +323,6 @@ function Home() {
           </p>
           <div className="history-header-accent"></div>
         </div>
-
         <div className="timeline">
           {historyEvents.map((event, index) => {
             const IconComponent = event.icon;
@@ -354,7 +344,8 @@ function Home() {
           })}
         </div>
       </div>
-      <Footer/>
+
+      <Footer />
     </div>
   );
 }

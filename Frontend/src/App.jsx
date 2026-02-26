@@ -8,6 +8,7 @@ import Gallery from "./pages/Gallery.jsx";
 import Courses from "./pages/Courses.jsx";
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import { StatsProvider } from "./context/StatsContext.jsx";
 import "./styles/announcement.css";
 
 function App() {
@@ -15,163 +16,165 @@ function App() {
     "📢 Admissions Open for 2026-27 Session — Apply Now!",
     "🏆 SSNS students science excibation ",
     "📅 Annual Sports Day: January 00, 2026",
-    "📝 FInal-Term Examinations Begin January 00, 2026"
+    "📝 FInal-Term Examinations Begin January 00, 2026",
   ];
 
   return (
-    <Router>
-      <Routes>
-        {/* Login - no navbar */}
-        <Route path="/login" element={<Login />} />
+    <StatsProvider>
+      <Router>
+        <Routes>
+          {/* Login - no navbar */}
+          <Route path="/login" element={<Login />} />
 
-        {/* Dashboard - protected, no navbar */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
+          {/* Dashboard - protected, no navbar */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Home with navbar */}
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="announcement-banner">
-                <span className="school-name">Satyanarayan</span>
-                <div className="announcement-content">
-                  <div>
-                    {announcements.map((announcement, index) => (
-                      <div key={index} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
-                    {announcements.map((announcement, index) => (
-                      <div key={`dup-${index}`} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
+          {/* Home with navbar */}
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="announcement-banner">
+                  <span className="school-name">Satyanarayan</span>
+                  <div className="announcement-content">
+                    <div>
+                      {announcements.map((announcement, index) => (
+                        <div key={index} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                      {announcements.map((announcement, index) => (
+                        <div key={`dup-${index}`} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <Navbar />
-              <Home />
-            </>
-          }
-        />
+                <Navbar />
+                <Home />
+              </>
+            }
+          />
 
-        {/* Other pages with navbar */}
-        <Route
-          path="/about"
-          element={
-            <>
-              <div className="announcement-banner">
-                <span className="school-name">Satyanarayan</span>
-                <div className="announcement-content">
-                  <div>
-                    {announcements.map((announcement, index) => (
-                      <div key={index} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
-                    {announcements.map((announcement, index) => (
-                      <div key={`dup-${index}`} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
+          {/* Other pages with navbar */}
+          <Route
+            path="/about"
+            element={
+              <>
+                <div className="announcement-banner">
+                  <span className="school-name">Satyanarayan</span>
+                  <div className="announcement-content">
+                    <div>
+                      {announcements.map((announcement, index) => (
+                        <div key={index} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                      {announcements.map((announcement, index) => (
+                        <div key={`dup-${index}`} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <Navbar />
-              <About />
-            </>
-          }
-        />
+                <Navbar />
+                <About />
+              </>
+            }
+          />
 
-        <Route
-          path="/contact"
-          element={
-            <>
-              <div className="announcement-banner">
-                <span className="school-name">Satyanarayan</span>
-                <div className="announcement-content">
-                  <div>
-                    {announcements.map((announcement, index) => (
-                      <div key={index} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
-                    {announcements.map((announcement, index) => (
-                      <div key={`dup-${index}`} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
+          <Route
+            path="/contact"
+            element={
+              <>
+                <div className="announcement-banner">
+                  <span className="school-name">Satyanarayan</span>
+                  <div className="announcement-content">
+                    <div>
+                      {announcements.map((announcement, index) => (
+                        <div key={index} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                      {announcements.map((announcement, index) => (
+                        <div key={`dup-${index}`} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <Navbar />
-              <Contact />
-            </>
-          }
-        />
+                <Navbar />
+                <Contact />
+              </>
+            }
+          />
 
-        <Route
-          path="/gallery"
-          element={
-            <>
-              <div className="announcement-banner">
-                <span className="school-name">Satyanarayan</span>
-                <div className="announcement-content">
-                  <div>
-                    {announcements.map((announcement, index) => (
-                      <div key={index} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
-                    {announcements.map((announcement, index) => (
-                      <div key={`dup-${index}`} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
+          <Route
+            path="/gallery"
+            element={
+              <>
+                <div className="announcement-banner">
+                  <span className="school-name">Satyanarayan</span>
+                  <div className="announcement-content">
+                    <div>
+                      {announcements.map((announcement, index) => (
+                        <div key={index} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                      {announcements.map((announcement, index) => (
+                        <div key={`dup-${index}`} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <Navbar />
-              <Gallery />
-            </>
-          }
-        />
+                <Navbar />
+                <Gallery />
+              </>
+            }
+          />
 
-        <Route
-          path="/courses"
-          element={
-            <>
-              <div className="announcement-banner">
-                <span className="school-name">Satyanarayan</span>
-                <div className="announcement-content">
-                  <div>
-                    {announcements.map((announcement, index) => (
-                      <div key={index} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
-                    {announcements.map((announcement, index) => (
-                      <div key={`dup-${index}`} className="announcement-item">
-                        {announcement}
-                      </div>
-                    ))}
+          <Route
+            path="/courses"
+            element={
+              <>
+                <div className="announcement-banner">
+                  <span className="school-name">Satyanarayan</span>
+                  <div className="announcement-content">
+                    <div>
+                      {announcements.map((announcement, index) => (
+                        <div key={index} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                      {announcements.map((announcement, index) => (
+                        <div key={`dup-${index}`} className="announcement-item">
+                          {announcement}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <Navbar />
-              <Courses />
-            </>
-          }
-        />
-      </Routes>
-    </Router>
+                <Navbar />
+                <Courses />
+              </>
+            }
+          />
+        </Routes>
+      </Router>
+    </StatsProvider>
   );
 }
 

@@ -152,7 +152,6 @@ function Home() {
 
   return (
     <div className="hero-container">
-      {/* Carousel */}
       <div className="hero-carousel">
         {images.map((image, index) => (
           <div
@@ -194,7 +193,6 @@ function Home() {
         </div>
       </div>
 
-      {/* Stats — driven by context, editable from Dashboard */}
       <div className="stats-section">
         <div className="stats-grid">
           {homeStats.map((stat) => {
@@ -212,7 +210,6 @@ function Home() {
         </div>
       </div>
 
-      {/* About */}
       <div className="about-container">
         <div className="about-left">
           <div className="about-title">
@@ -261,7 +258,6 @@ function Home() {
         </div>
       </div>
 
-      {/* Vision & Mission */}
       <div className="vm-section">
         <div className="vm-header">
           <h2>Our Vision &amp; Mission</h2>

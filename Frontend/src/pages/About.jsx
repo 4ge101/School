@@ -1,21 +1,7 @@
-import {
-  ChevronLeft,
-  ChevronRight,
-  Users,
-  Award,
-  BookOpen,
-  Building2,
-  Sparkles,
-  Target,
-  Heart,
-  Lightbulb,
-  Eye,
-  Compass,
-  Flag,
-  TrendingUp,
-  GraduationCap,
-  Star,
-} from "lucide-react";
+import { Sparkles, Target, Heart, Lightbulb } from "lucide-react";
+import PrincipalMessage from "../pages/Principalmessage";
+import Facilities from "../pages/Facilities";
+import Footer from "../components/Footer";
 
 const features = [
   {
@@ -97,6 +83,10 @@ function About() {
           })}
         </div>
       </div>
+
+      <PrincipalMessage />
+      <Facilities />
+      <Footer />
     </>
   );
 }

@@ -98,7 +98,7 @@ function Contact() {
           HIGH SCHOOL
         </h1>
         <div className="decorative-line" />
-        <p className="hero-subtitle">
+        <p className="hero-subtitle2">
           We're here to answer your questions and welcome your visit
         </p>
       </div>

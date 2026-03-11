@@ -36,6 +36,17 @@ const features = [
 function About() {
   return (
     <>
+      <div className="hero">
+        <div className="hero-badge">✦ KNOW ABOUT US ✦</div>
+        <h1 className="hero-title2">
+	  ABOU US	
+        </h1>
+        <div className="decorative-line" />
+        <p className="hero-subtitle2">
+	  ABOUT OUR SCHOOL	
+        </p>
+      </div>
+
       <div className="about-container">
         <div className="about-left">
           <div className="about-title">
